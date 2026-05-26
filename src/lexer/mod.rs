@@ -51,14 +51,34 @@ impl<'a> Lexer<'a> {
         }
 
         match next_char {
-            b'=' => Token::new(TokenType::Assign, "=".to_string()),
+            b'=' => {
+                if let Some(&&peek) = self.iter.peek()
+                    && peek == b'='
+                {
+                    Token::new(TokenType::EQ, "=".to_string())
+                } else {
+                    Token::new(TokenType::Assign, "=".to_string())
+                }
+            }
             b',' => Token::new(TokenType::Comma, ",".to_string()),
             b';' => Token::new(TokenType::Semicolan, ";".to_string()),
             b'(' => Token::new(TokenType::LParen, "(".to_string()),
             b')' => Token::new(TokenType::RParen, ")".to_string()),
             b'{' => Token::new(TokenType::LBrace, "{".to_string()),
             b'}' => Token::new(TokenType::RBrace, "}".to_string()),
+            b'!' => {
+                if let Some(&&peek) = self.iter.peek()
+                    && peek == b'='
+                {
+                    Token::new(TokenType::NotEQ, "=".to_string())
+                } else {
+                    Token::new(TokenType::Bang, "!".to_string())
+                }
+            }
             b'+' => Token::new(TokenType::Plus, "+".to_string()),
+            b'-' => Token::new(TokenType::Minus, "-".to_string()),
+            b'*' => Token::new(TokenType::Asterisk, "*".to_string()),
+            b'/' => Token::new(TokenType::Slash, "/".to_string()),
             b'<' => {
                 if let Some(&&peek) = self.iter.peek()
                     && peek == b'-'
@@ -66,9 +86,10 @@ impl<'a> Lexer<'a> {
                     self.iter.next();
                     Token::new(TokenType::Define, "<-".to_string())
                 } else {
-                    Token::new(TokenType::LessThan, "<".to_string())
+                    Token::new(TokenType::LT, "<".to_string())
                 }
             }
+            b'>' => Token::new(TokenType::GT, ">".to_string()),
             _ => Token::new(TokenType::Illegal, "".to_string()),
         }
     }
@@ -89,6 +110,17 @@ add <- fn(x, y) {
 };
 
 let result = add(five, ten);
+!-/*5;
+5 < 10 > 5;
+
+if (5 < 10) {
+    return true;
+} else {
+    return false;
+}
+
+10 == 10;
+10 != 9;
 "#;
 
         let tests = vec![
@@ -133,6 +165,42 @@ let result = add(five, ten);
             TokenType::Ident,
             TokenType::RParen,
             TokenType::Semicolan,
+            // !-/*5;
+            TokenType::Bang,
+            TokenType::Minus,
+            TokenType::Slash,
+            TokenType::Asterisk,
+            TokenType::Int,
+            TokenType::Semicolan,
+            // 5 < 10 > 5;
+            TokenType::Int,
+            TokenType::LT,
+            TokenType::Int,
+            TokenType::GT,
+            TokenType::Int,
+            TokenType::Semicolan,
+            // if (5 < 10) {
+            TokenType::If,
+            TokenType::LParen,
+            TokenType::Int,
+            TokenType::LT,
+            TokenType::Int,
+            TokenType::RParen,
+            TokenType::LBrace,
+            // return true;
+            TokenType::Return,
+            TokenType::True,
+            TokenType::Semicolan,
+            // } else {
+            TokenType::RBrace,
+            TokenType::Else,
+            TokenType::LBrace,
+            // return false;
+            TokenType::Return,
+            TokenType::False,
+            TokenType::Semicolan,
+            // }
+            TokenType::RBrace,
         ];
 
         let mut lexer = Lexer::new(input);

@@ -7,6 +7,11 @@ pub enum TokenType {
     Ident,
     Define,
     Function,
+    If,
+    Else,
+    True,
+    False,
+    Return,
 
     Assign,
     Comma,
@@ -15,10 +20,19 @@ pub enum TokenType {
     RParen,
     LBrace,
     RBrace,
-    LessThan,
+
+    Bang,
+    Plus,
+    Minus,
+    Asterisk,
+    Slash,
+
+    LT,
+    GT,
+    EQ,
+    NotEQ,
 
     Int,
-    Plus,
 }
 
 #[derive(Debug, PartialEq, Clone)]
@@ -39,6 +53,11 @@ impl Token {
         let tt = match ident.as_str() {
             "let" => TokenType::Let,
             "fn" => TokenType::Function,
+            "if" => TokenType::If,
+            "else" => TokenType::Else,
+            "true" => TokenType::True,
+            "false" => TokenType::False,
+            "return" => TokenType::Return,
             _ => TokenType::Ident,
         };
 
