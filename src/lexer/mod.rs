@@ -121,6 +121,19 @@ if (5 < 10) {
 
 10 == 10;
 10 != 9;
+
+Calculator <- struct {
+    name: str
+}
+
+Calculator <- new(name) {
+    return Calculator {name: name};
+}
+
+Calculator <- extend(self) {
+    add <- fn(a, b) {return a + b}
+    sub <- fn(a, b) {return a - b}
+}
 "#;
 
         let tests = vec![
