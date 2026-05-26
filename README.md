@@ -11,26 +11,13 @@ This is what I am trying to build
 _Goal: Solidify token processing and create an interactive command-line environment._
 
 - [x] **Transition away from manual index cursors**
-  - Migrated the `Lexer` architecture from error-prone raw byte indexing (`position`, `read_position`) to an idiomatic Rust `std::iter::Peekable` design.
 - [x] **Incorporate Rust Lifetimes**
-  - Implemented zero-copy memory referencing by tying the Lexer structure to the source string slice lifetime (`Lexer<'a>`).
 - [x] **Fix Multiple Whitespace Skipping Bug**
-  - Converted the old single-advance conditional into a clean `while self.iter.next_if(...).is_some()` loop to continuously eat spaces, tabs, and newlines.
 - [x] **Fix Token-Skipping Boundary Bugs**
-  - Integrated `.next_if()` directly inside identifier and digit loops, ensuring the cursor leaves trailing operators and semicolons safely on the stream for the next token evaluation.
 - [x] **Incorporate Compound Assignment Tokens**
-  - Added lookahead peeking logic to successfully capture your custom functional mapping symbol (`<-`).
 - [x] **Map out Language Keyword Integration Hooks**
-  - Tied identifier resolution into `Token::lookup_ident(buffer)` to prepare for routing keywords like `let`, `if`, `struct`, and `extend`.
 - [x] **Establish the Comprehensive Core Syntax Blueprint**
-  - Documented and structured your language framework distinguishing dynamic assignments (`=`) from your static metadata and behavior definitions (`<-`).
-- [ ] **Build the Interactive REPL (Read-Eval-Print Loop)**
-  - [ ] Create a `repl.rs` file in your project layout.
-  - [ ] Implement a loop that reads text line-by-line from `std::io::stdin()`.
-  - [ ] Feed each line into your `Lexer::new(line)`.
-  - [ ] Write a loop that calls `lexer.next_token()` until encountering `TokenType::Eof`.
-  - [ ] Print out each token's type and raw literal text to verify the stream works in real-time.
-  - [ ] Wire the REPL function into `main.rs`.
+- [x] **Build the Interactive REPL (Read-Eval-Print Loop)**
 
 ---
 
