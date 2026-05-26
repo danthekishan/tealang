@@ -169,3 +169,11 @@ let final_status = my_brewer.check_status();
 
 10 == 10; // Structural sanity check from your math rules
 ```
+
+## Acknowledgements
+
+TeaLang is a personal language and interpreter project built for learning and experimentation and heavily influenced by the following resources:
+
+- :contentReference[oaicite:0]{index=0} by Thorsten Ball — used as the primary guide for learning lexer, parser, AST, and interpreter fundamentals.
+- The Monkey language from the book served as an educational reference while adapting ideas into TeaLang's own syntax and language philosophy.
+- Inspiration was also drawn from languages and ideas explored during development:
